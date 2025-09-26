@@ -166,7 +166,6 @@ function projectedWithForgiveness(){
 
     if(hrs > 0 && g1 in gradePoints && g2 in gradePoints){
       const origQP = hrs * gradePoints[g1];
-      const newQP = hrs * gradePoints[g2];
 
       // Policy: remove original attempt GPA hours and QP.
       // If the repeat is already included in this term's list, then semester totals already added new hours+QP.
@@ -174,7 +173,11 @@ function projectedWithForgiveness(){
       // If the repeat is NOT included in this term's list (e.g., it is already posted), then base includes both attempts.
       // Remove original HOURS and original QP from totals.
       if(inSemester){
-        QP = QP - origQP + newQP; // add explicit newQP so the GF card can be used even if user did not add the repeat in the table
+ // When the second attempt is already represented in the semester table we only
+        // remove the original attempt from the totals. The repeat's hours and quality
+        // points are already included in the semester projection, so adding them again
+        // would double count the new grade.
+        QP = QP - origQP;
         // no H change (semester hours likely already include the repeat)
       }else{
         QP = QP - origQP; // keep new attempt QP as already in base or not part of this term
