@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>USC GPA Calculator with Grade Forgiveness</title>
+  <meta name="description" content="University Advising Center GPA calculator for USC students with Grade Forgiveness projection." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <img src="assets/uac_logo.png" alt="University Advising Center for Academic & Post-Graduation Success, University of South Carolina" class="logo">
+      <div class="title-wrap">
+        <h1>USC GPA Calculator</h1>
+        <p class="subtitle">Includes Grade Forgiveness projection</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="container" id="app">
+    <section class="card">
+      <h2>Current transcript totals</h2>
+      <p class="help">Use the totals from your latest transcript in Self Service Carolina. Enter <strong>Cumulative GPA Hours</strong> and <strong>Cumulative Quality Points</strong>. The calculator will show your current cumulative GPA.</p>
+      <div class="grid two">
+        <label>
+          <span>Cumulative GPA Hours</span>
+          <input id="currentHours" type="number" step="0.1" min="0" placeholder="e.g., 45">
+        </label>
+        <label>
+          <span>Cumulative Quality Points</span>
+          <input id="currentQP" type="number" step="0.01" min="0" placeholder="e.g., 110.5">
+        </label>
+      </div>
+      <div class="result-line">
+        <span class="result-label">Current Cumulative GPA</span>
+        <span id="currentGPA" class="result-value">—</span>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Planned or current term</h2>
+      <p class="help">Add courses you are taking or planning. For GPA, only letter grades below are used. W, I, S, U are not included in GPA hours.</p>
+
+      <table class="table" aria-label="Semester courses table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Course (optional)</th>
+            <th>Credit Hours</th>
+            <th>Grade / Expected Grade</th>
+            <th>Quality Points</th>
+          </tr>
+        </thead>
+        <tbody id="coursesBody">
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="2" class="right">Semester totals</td>
+            <td><span id="semHours">0</span></td>
+            <td class="muted">GPA</td>
+            <td><span id="semGPA">—</span></td>
+          </tr>
+        </tfoot>
+      </table>
+      <button class="btn" id="addRowBtn" type="button">Add course</button>
+      <button class="btn secondary" id="resetRowsBtn" type="button">Clear all</button>
+    </section>
+
+    <section class="card">
+      <h2>Grade Forgiveness (up to two courses, max 8 credits)</h2>
+      <p class="help">Enter details for the first attempt and the second attempt. Read the official policy summary at the bottom of this page.</p>
+
+      <div class="gf-grid">
+        <div class="gf-card">
+          <h3>GF 1</h3>
+          <label>
+            <span>First attempt credit hours</span>
+            <input id="gf1Hours" type="number" step="0.1" min="0">
+          </label>
+          <label>
+            <span>First attempt grade</span>
+            <select id="gf1OrigGrade" class="grade-select"></select>
+          </label>
+          <label>
+            <span>Second attempt grade</span>
+            <select id="gf1NewGrade" class="grade-select"></select>
+          </label>
+          <label class="checkbox">
+            <input id="gf1InSemester" type="checkbox">
+            <span>Second attempt is included in the term list above</span>
+          </label>
+        </div>
+
+        <div class="gf-card">
+          <h3>GF 2</h3>
+          <label>
+            <span>First attempt credit hours</span>
+            <input id="gf2Hours" type="number" step="0.1" min="0">
+          </label>
+          <label>
+            <span>First attempt grade</span>
+            <select id="gf2OrigGrade" class="grade-select"></select>
+          </label>
+          <label>
+            <span>Second attempt grade</span>
+            <select id="gf2NewGrade" class="grade-select"></select>
+          </label>
+          <label class="checkbox">
+            <input id="gf2InSemester" type="checkbox">
+            <span>Second attempt is included in the term list above</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="alert" id="gfAlert" role="status" aria-live="polite"></div>
+    </section>
+
+    <section class="card results">
+      <h2>Results</h2>
+      <div class="grid two">
+        <div class="result-box">
+          <h3>Projected Cumulative GPA (no forgiveness)</h3>
+          <p class="big" id="projNoGF">—</p>
+          <p class="small muted">Based on current totals plus this term.</p>
+        </div>
+        <div class="result-box">
+          <h3>Projected Cumulative GPA (with forgiveness)</h3>
+          <p class="big" id="projWithGF">—</p>
+          <p class="small muted">Assumes you meet policy limits.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card policy">
+      <h2>Policy summary</h2>
+      <p>This calculator implements grade forgiveness rules from the University Registrar for USC Columbia and Palmetto College. Up to <strong>two courses</strong> and not more than <strong>8 credits</strong> are eligible. Only the second grade is used in GPA calculation and the original attempt's GPA hours and quality points are removed. Eligible first attempts are <strong>D+</strong>, <strong>D</strong>, <strong>F</strong>, or <strong>WF</strong>. The repeated attempt must be taken at USC Columbia or a Palmetto College campus. Some programs have additional rules that do not use grade forgiveness in selective GPAs.</p>
+      <p class="small muted">Always verify with your academic advisor.</p>
+      <details>
+        <summary>View source references</summary>
+        <ul>
+          <li><a href="https://sc.edu/about/offices_and_divisions/registrar/transcripts_and_records/grade_forgiveness/" target="_blank" rel="noopener">USC Registrar: Grade Forgiveness policy</a></li>
+          <li><a href="https://academicbulletins.sc.edu/undergraduate/policies-regulations/undergraduate-academic-regulations/" target="_blank" rel="noopener">Undergraduate Academic Regulations</a></li>
+        </ul>
+      </details>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>University Advising Center • University of South Carolina</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
